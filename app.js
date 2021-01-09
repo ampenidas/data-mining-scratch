@@ -16,28 +16,25 @@ puppeteer.use(blockResourcesPlugin);
 puppeteer.use(anonymizeuaPlugin);
 
 app.get('/', (req, res) => {
-    puppeteer.launch({headless: true})
-        .then(async browser => {
-            console.time('start');
-            const page = await browser.newPage();
+    (async () => {
+        console.time('start');
+        const browser = await puppeteer.launch({headless: true});
+        const page = await browser.newPage();
 
-            blockResourcesPlugin.blockedTypes.add('image');
-            blockResourcesPlugin.blockedTypes.add('stylesheet');
-            blockResourcesPlugin.blockedTypes.add('other');
-            blockResourcesPlugin.blockedTypes.add('script');
-            blockResourcesPlugin.blockedTypes.add('media');
-            blockResourcesPlugin.blockedTypes.add('font');
+        blockResourcesPlugin.blockedTypes.add('image');
+        blockResourcesPlugin.blockedTypes.add('stylesheet');
+        blockResourcesPlugin.blockedTypes.add('other');
+        blockResourcesPlugin.blockedTypes.add('script');
+        blockResourcesPlugin.blockedTypes.add('media');
+        blockResourcesPlugin.blockedTypes.add('font');
 
-            await page.goto(url);
-            const body = await page.evaluate(() => document.body.innerHTML);
-            await browser.close();
-            console.timeEnd('start');
-            res.send(body);
+        await page.goto(url);
+        const body = await page.evaluate(() => document.body.innerHTML);
+        await browser.close();
+        console.timeEnd('start');
+        res.send(body);
 
-        })
-        .catch(error => {
-            console.log(error);
-        });
+    })();
 });
 
 app.listen(port, () => {
