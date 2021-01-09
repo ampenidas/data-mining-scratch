@@ -1,10 +1,9 @@
 const express = require('express');
 const puppeteer = require('puppeteer-extra');
 const stealthPlugin = require('puppeteer-extra-plugin-stealth')();
-const adBlockerPlugin = require('puppeteer-extra-plugin-adblocker');
 const blockResourcesPlugin = require('puppeteer-extra-plugin-block-resources')();
 const anonymizeuaPlugin = require('puppeteer-extra-plugin-anonymize-ua')();
-
+//const adBlockerPlugin = require('puppeteer-extra-plugin-adblocker');
 const app = express();
 const port = 3000;
 const url = '';
@@ -29,10 +28,12 @@ app.get('/', (req, res) => {
         blockResourcesPlugin.blockedTypes.add('font');
 
         await page.goto(url);
-        const body = await page.evaluate(() => document.body.innerHTML);
+        const quotesUrl = await page.evaluate(() => document.querySelector('body > div.content > div.mainContentContainer > div.mainContent > div.mainContentFloat > div.rightContainer > div:nth-child(12) > div.h2Container.gradientHeaderContainer > h2 > a').getAttribute('href'));
+        await page.goto('' + quotesUrl);
+        const quotes = await page.evaluate(() => document.querySelector('.quoteText').textContent);
         await browser.close();
         console.timeEnd('start');
-        res.send(body);
+        res.send(quotes);
 
     })();
 });
