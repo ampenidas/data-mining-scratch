@@ -1,5 +1,5 @@
 {
-  "name": "scraping-playground",
+  "name": "scraper-playground",
   "version": "1.0.0",
   "description": "scraping test app",
   "main": "app.js",
