@@ -1,7 +1,7 @@
 {
-  "name": "data-mining-scratch",
+  "name": "scraping-playground",
   "version": "1.0.0",
-  "description": "data mining test app",
+  "description": "scraping test app",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
